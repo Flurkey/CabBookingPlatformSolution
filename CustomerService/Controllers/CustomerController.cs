@@ -41,5 +41,20 @@ namespace CustomerService.Controllers
 
             return Ok("Login successful.");
         }
+
+        [HttpGet("profile/{email}")]
+        public IActionResult GetProfile(string email)
+        {
+            var user = _service.GetByEmail(email);
+            if (user == null) return NotFound("User not found.");
+            return Ok(user);
+        }
+
+        [HttpGet("notifications/{email}")]
+        public IActionResult GetNotifications(string email)
+        {
+            var notes = _service.GetNotifications(email);
+            return Ok(notes);
+        }
     }
 }
