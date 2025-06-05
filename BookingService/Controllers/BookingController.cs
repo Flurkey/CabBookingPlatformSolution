@@ -1,5 +1,7 @@
 ﻿using BookingService.Models;
 using BookingService.Services;
+using Google.Cloud.PubSub.V1;
+using Google.Protobuf;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingService.Controllers
@@ -16,9 +18,12 @@ namespace BookingService.Controllers
         }
 
         [HttpPost("create")]
-        public IActionResult CreateBooking([FromBody] Booking booking)
+        public async Task<IActionResult> CreateBooking([FromBody] Booking booking)
         {
             _service.Create(booking);
+
+            await PublishBookingEventAsync(booking.UserId);
+
             return Ok("Booking created.");
         }
 
@@ -34,6 +39,22 @@ namespace BookingService.Controllers
         {
             var bookings = _service.GetPastBookings(userId);
             return Ok(bookings);
+        }
+
+        private async Task PublishBookingEventAsync(string userId)
+        {
+            string projectId = "dp2025swd63";
+            string topicId = "bookings-topic";
+
+            PublisherServiceApiClient publisher = await PublisherServiceApiClient.CreateAsync();
+            TopicName topicName = TopicName.FromProjectTopic(projectId, topicId);
+
+            PubsubMessage message = new PubsubMessage
+            {
+                Data = ByteString.CopyFromUtf8(userId)
+            };
+
+            await publisher.PublishAsync(topicName, new[] { message });
         }
     }
 }
