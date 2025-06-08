@@ -1,15 +1,18 @@
 ﻿using CabBookingWebApp.Models;
+using Microsoft.Extensions.Configuration;
+using System.Net.Http.Json;
 
 namespace CabBookingWebApp.Services
 {
     public class PaymentApiService
     {
         private readonly HttpClient _http;
-        private readonly string _baseUrl = "https://localhost:7237/api/payment";
+        private readonly string _baseUrl;
 
-        public PaymentApiService(HttpClient http)
+        public PaymentApiService(HttpClient http, IConfiguration config)
         {
             _http = http;
+            _baseUrl = config["Services:PaymentApi"]!;
         }
 
         public async Task<string> PayAsync(string userId, string bookingId, string cabType,

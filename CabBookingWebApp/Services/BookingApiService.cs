@@ -5,11 +5,12 @@ namespace CabBookingWebApp.Services
     public class BookingApiService
     {
         private readonly HttpClient _http;
-        private readonly string _baseUrl = "https://localhost:7284/api/booking";
+        private readonly string _baseUrl;
 
-        public BookingApiService(HttpClient http)
+        public BookingApiService(HttpClient http, IConfiguration config)
         {
             _http = http;
+            _baseUrl = config["Services:BookingApi"]!;
         }
 
         public async Task<bool> CreateBookingAsync(Booking booking)

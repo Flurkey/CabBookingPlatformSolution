@@ -1,19 +1,20 @@
 ﻿using CabBookingWebApp.Models;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
-using static System.Net.WebRequestMethods;
 
 namespace CabBookingWebApp.Services
 {
     public class LocationApiService
     {
         private readonly HttpClient _httpClient;
-        private readonly string _baseUrl = "https://localhost:7157/api/Location";
+        private readonly string _baseUrl;
 
-        public LocationApiService(HttpClient httpClient)
+        public LocationApiService(HttpClient httpClient, IConfiguration config)
         {
             _httpClient = httpClient;
+            _baseUrl = config["Services:LocationApi"]!;
         }
 
         public async Task<List<Location>> GetLocationsAsync(string userId)
@@ -29,7 +30,6 @@ namespace CabBookingWebApp.Services
         {
             var json = JsonConvert.SerializeObject(location);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-
             await _httpClient.PostAsync(_baseUrl, content);
         }
 
@@ -42,7 +42,6 @@ namespace CabBookingWebApp.Services
         {
             var response = await _httpClient.GetAsync($"{_baseUrl}/weather/{city}");
             if (!response.IsSuccessStatusCode) return "Unable to retrieve weather.";
-
             return await response.Content.ReadAsStringAsync();
         }
 
