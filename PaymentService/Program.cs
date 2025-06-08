@@ -1,8 +1,12 @@
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins("https://localhost:7179")
               .AllowAnyHeader()
@@ -10,13 +14,13 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(int.Parse(port));
+});
 
 var app = builder.Build();
-
-app.UseCors("AllowAll");
 
 if (app.Environment.IsDevelopment())
 {
@@ -25,6 +29,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowFrontend");
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
