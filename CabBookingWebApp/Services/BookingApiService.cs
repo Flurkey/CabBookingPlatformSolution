@@ -27,5 +27,12 @@ namespace CabBookingWebApp.Services
         {
             return await _http.GetFromJsonAsync<List<Booking>>($"{_baseUrl}/past/{userId}") ?? new();
         }
+
+        public async Task<bool> MarkBookingAsPaid(string bookingId)
+        {
+            var res = await _http.PutAsync($"{_baseUrl}/mark-paid/{bookingId}", null);
+            return res.IsSuccessStatusCode;
+        }
+
     }
 }

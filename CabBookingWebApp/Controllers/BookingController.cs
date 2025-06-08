@@ -67,6 +67,12 @@ namespace CabBookingWebApp.Controllers
                  hasDiscount
             );
 
+            if (result.StartsWith("Payment successful"))
+            {
+                // ✅ Mark booking as paid
+                await _service.MarkBookingAsPaid(bookingId);
+            }
+
             TempData["PayMessage"] = result;
             return RedirectToAction("Current");
         }

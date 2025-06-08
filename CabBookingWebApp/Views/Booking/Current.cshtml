@@ -59,7 +59,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>You need to pay: <strong id="fareAmount">...</strong></p>
                     <p>Do you wish to continue?</p>
                 </div>
                 <div class="modal-footer">
@@ -81,15 +80,6 @@
                 const passengers = btn.dataset.passengers;
                 const email = '@Context.Session.GetString("userEmail")';
 
-                const url = `https://localhost:7237/api/payment/pay?userId=${email}&bookingId=${bookingId}` +
-                            `&cabType=${cabType}&depLat=35.9&depLng=14.5&arrLat=35.91&arrLng=14.51` +
-                            `&bookingTime=${encodeURIComponent(bookingTime)}&passengers=${passengers}&hasDiscount=false`;
-
-                const res = await fetch(url);
-                const text = await res.text();
-                const amount = text.match(/€(\d+(\.\d+)?)/)?.[0] ?? "Unavailable";
-
-                document.getElementById("fareAmount").textContent = amount;
                 document.getElementById("modalBookingId").value = bookingId;
 
                 const modal = new bootstrap.Modal(document.getElementById("confirmPayModal"));

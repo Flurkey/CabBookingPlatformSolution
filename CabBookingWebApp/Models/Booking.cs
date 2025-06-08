@@ -16,6 +16,6 @@ namespace CabBookingWebApp.Models
         [JsonPropertyName("passengers")]
         public int PassengerCount { get; set; }
         public string CabType { get; set; }
-        public bool IsPaid { get; set; } = false;
+        public bool IsPaid { get; set; }
     }
 }

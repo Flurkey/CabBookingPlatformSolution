@@ -26,5 +26,7 @@ namespace BookingService.Models
 
         [BsonElement("cabType")]
         public string CabType { get; set; }
+        [BsonElement("isPaid")]
+        public bool IsPaid { get; set; } = false;
     }
 }

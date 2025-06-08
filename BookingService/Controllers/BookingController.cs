@@ -36,6 +36,18 @@ namespace BookingService.Controllers
             return Ok("Booking created.");
         }
 
+        [HttpPut("mark-paid/{id}")]
+        public IActionResult MarkPaid(string id)
+        {
+            var booking = _service.Find(b => b.Id == id).FirstOrDefault();
+            if (booking == null) return NotFound();
+
+            booking.IsPaid = true;
+            _service.ReplaceOne(b => b.Id == id, booking);
+            return Ok();
+        }
+
+
         [HttpGet("current/{userId}")]
         public IActionResult GetCurrent(string userId)
         {

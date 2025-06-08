@@ -21,5 +21,19 @@ namespace BookingService.Services
 
         public List<Booking> GetPastBookings(string userId) =>
             _bookings.Find(b => b.UserId == userId && b.BookingTime < DateTime.UtcNow).ToList();
+
+        public List<Booking> Find(Func<Booking, bool> predicate)
+        {
+            return _bookings.AsQueryable().Where(predicate).ToList();
+        }
+
+        public void ReplaceOne(Func<Booking, bool> filter, Booking updated)
+        {
+            var booking = _bookings.AsQueryable().FirstOrDefault(filter);
+            if (booking != null)
+            {
+                _bookings.ReplaceOne(b => b.Id == booking.Id, updated);
+            }
+        }
     }
 }

@@ -18,6 +18,8 @@ namespace CabBookingWebApp.Controllers
             if (string.IsNullOrEmpty(email))
                 return RedirectToAction("Login", "Customer");
 
+
+
             var payments = await _service.GetPaymentsAsync(email);
             return View(payments);
         }
