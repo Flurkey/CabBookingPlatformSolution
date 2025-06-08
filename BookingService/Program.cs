@@ -1,36 +1,38 @@
+var builder = WebApplication.CreateBuilder(args);
 
-namespace BookingService
+// Add services to the container
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Add CORS to allow calls from your frontend (port 7179)
+builder.Services.AddCors(options =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
+    options.AddPolicy("AllowFrontend",
+        policy =>
         {
-            var builder = WebApplication.CreateBuilder(args);
+            policy.WithOrigins("https://localhost:7179") // frontend origin
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
 
-            // Add services to the container.
+var app = builder.Build();
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
-
-            app.MapControllers();
-
-            app.Run();
-        }
-    }
+// Enable Swagger in Development
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+// Middleware setup
+app.UseHttpsRedirection();
+
+app.UseCors("AllowFrontend"); // Enable CORS
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

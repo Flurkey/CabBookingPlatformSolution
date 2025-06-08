@@ -1,0 +1,16 @@
+﻿@model CabBookingWebApp.Models.Booking
+
+<h2>Create a New Booking</h2>
+
+<form asp-controller="Booking" asp-action="Create" method="post">
+    <input type="text" name="StartLocation" placeholder="Start Location" />
+    <input type="text" name="EndLocation" placeholder="End Location" />
+    <input type="datetime-local" name="BookingTime" />
+    <input type="number" name="PassengerCount" placeholder="Passengers" />
+    <select name="CabType">
+        <option>Economic</option>
+        <option>Premium</option>
+        <option>Executive</option>
+    </select>
+    <button type="submit">Book Cab</button>
+</form>

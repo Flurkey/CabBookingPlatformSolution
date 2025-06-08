@@ -1,0 +1,34 @@
+﻿@model List<CabBookingWebApp.Models.Booking>
+
+<h2>Past Bookings</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No past bookings found.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Start</th>
+                <th>End</th>
+                <th>Time</th>
+                <th>Cab</th>
+                <th>Passengers</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.StartLocation</td>
+                    <td>@booking.EndLocation</td>
+                    <td>@booking.BookingTime.ToString("g")</td>
+                    <td>@booking.CabType</td>
+                    <td>@booking.PassengerCount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -25,7 +25,17 @@ namespace LocationService.Services
 
         public void Add(Location loc) => _locations.InsertOne(loc);
 
-        public void Update(string id, Location loc) => _locations.ReplaceOne(l => l.Id == id, loc);
+        public void Update(string id, Location updated)
+        {
+            var filter = Builders<Location>.Filter.Eq(l => l.Id, id);
+            var update = Builders<Location>.Update
+                .Set(l => l.UserId, updated.UserId)
+                .Set(l => l.Name, updated.Name)
+                .Set(l => l.City, updated.City)
+                .Set(l => l.Country, updated.Country);
+
+            _locations.UpdateOne(filter, update);
+        }
 
         public void Delete(string id) => _locations.DeleteOne(l => l.Id == id);
 

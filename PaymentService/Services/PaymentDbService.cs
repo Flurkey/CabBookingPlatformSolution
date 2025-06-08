@@ -44,6 +44,10 @@ namespace PaymentService.Services
             double fare = priceInCents / 100.0;
             return fare;
         }
+        public bool PaymentExists(string bookingId)
+        {
+            return _payments.Find(p => p.BookingId == bookingId).Any();
+        }
 
         public double CalculateTotal(double baseFare, string cabType, DateTime bookingTime, int passengers, bool hasDiscount)
         {

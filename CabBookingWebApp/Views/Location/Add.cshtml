@@ -1,0 +1,10 @@
+﻿@model CabBookingWebApp.Models.Location
+
+<h2>Add Favorite Location</h2>
+
+<form asp-controller="Location" asp-action="Add" method="post">
+    <input type="text" name="Name" placeholder="Name" required />
+    <input type="text" name="City" placeholder="City" required />
+    <input type="text" name="Country" placeholder="Country" required />
+    <button type="submit">Add Location</button>
+</form>

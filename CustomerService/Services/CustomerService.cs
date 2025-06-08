@@ -14,7 +14,7 @@ namespace CustomerService.Services
             var database = client.GetDatabase(config["MongoDB:DatabaseName"]);
 
             _customers = database.GetCollection<Customer>(config["MongoDB:CustomerCollectionName"]);
-            _notifications = database.GetCollection<Notification>("Notifications");
+            _notifications = database.GetCollection<Notification>("Inbox");
         }
 
         public List<Customer> GetAll() => _customers.Find(_ => true).ToList();
@@ -23,14 +23,17 @@ namespace CustomerService.Services
 
         public void Create(Customer customer) => _customers.InsertOne(customer);
 
-        public List<Notification> GetNotifications(string email) =>
-            _notifications.Find(n => n.Email == email).SortByDescending(n => n.Timestamp).ToList();
+        public List<Notification> GetNotifications(string email)
+        {
+            var filter = Builders<Notification>.Filter.Eq("userId", email.ToLower());
+            return _notifications.Find(filter).SortByDescending(n => n.Timestamp).ToList();
+        }
 
         public void AddNotification(string email, string message)
         {
             var notification = new Notification
             {
-                Email = email,
+                Email = email.ToLower(),
                 Message = message,
                 Timestamp = DateTime.UtcNow
             };

@@ -21,6 +21,8 @@ namespace BookingService.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateBooking([FromBody] Booking booking)
         {
+            Console.WriteLine($"API HIT: {booking.UserId}, {booking.StartLocation}, {booking.BookingTime}");
+
             _service.Create(booking);
 
             await PublishBookingEventAsync(booking.UserId);

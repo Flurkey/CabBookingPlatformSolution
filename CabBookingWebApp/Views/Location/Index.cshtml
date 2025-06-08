@@ -1,0 +1,65 @@
+﻿@model List<Location>
+
+<table class="table table-bordered mt-4">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>City</th>
+            <th>Country</th>
+            <th>Weather</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var location in Model)
+        {
+            <tr id="row-@location.Id">
+                <td><input class="form-control" id="name-@location.Id" value="@location.Name" /></td>
+                <td><input class="form-control" id="city-@location.Id" value="@location.City" /></td>
+                <td><input class="form-control" id="country-@location.Id" value="@location.Country" /></td>
+                <td>@location.Weather</td>
+                <td>
+                    <button class="btn btn-sm btn-success" onclick="updateLocation('@location.Id')">Save</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteLocation('@location.Id')">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    async function updateLocation(id) {
+        const loc = {
+            id: id,
+            name: document.getElementById(`name-${id}`).value,
+            city: document.getElementById(`city-${id}`).value,
+            country: document.getElementById(`country-${id}`).value,
+            userId: '@Context.Session.GetString("userEmail")'
+        };
+
+        const res = await fetch(`https://localhost:7157/api/Location/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(loc)
+        });
+
+        if (res.ok) {
+            alert('Location updated!');
+            location.reload();
+        } else {
+            alert('Failed to update location');
+        }
+    }
+
+    async function deleteLocation(id) {
+        const res = await fetch(`https://localhost:7157/api/Location/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (res.ok) {
+            document.getElementById(`row-${id}`).remove();
+        } else {
+            alert('Failed to delete location');
+        }
+    }
+</script>

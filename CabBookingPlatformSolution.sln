@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerService", "CustomerService\CustomerService.csproj", "{CD07CFA9-377C-423B-8811-FF8232D8AED2}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentService", "PaymentService\PaymentService.csproj", "{1F2CF0EB-5D4F-4EE9-B49D-05447528F74C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocationService", "LocationService\LocationService.csproj", "{99791802-1A32-40FD-96C3-C76001C0F84A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CabBookingWebApp", "CabBookingWebApp\CabBookingWebApp.csproj", "{5D44FAB6-8410-45C0-BB37-6375D107CAD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{99791802-1A32-40FD-96C3-C76001C0F84A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99791802-1A32-40FD-96C3-C76001C0F84A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99791802-1A32-40FD-96C3-C76001C0F84A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D44FAB6-8410-45C0-BB37-6375D107CAD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D44FAB6-8410-45C0-BB37-6375D107CAD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D44FAB6-8410-45C0-BB37-6375D107CAD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D44FAB6-8410-45C0-BB37-6375D107CAD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

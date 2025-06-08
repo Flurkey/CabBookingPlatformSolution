@@ -1,0 +1,17 @@
+﻿@model List<CabBookingWebApp.Models.InboxMessage>
+
+<h2>Your Inbox</h2>
+
+@if (!Model.Any())
+{
+    <p>No messages.</p>
+}
+else
+{
+    <ul>
+        @foreach (var msg in Model)
+        {
+            <li><strong>@msg.Type:</strong> @msg.Message (@msg.SentAt.ToShortTimeString())</li>
+        }
+    </ul>
+}

@@ -29,17 +29,23 @@ namespace CustomerService.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] Customer customer)
+        public IActionResult Login([FromBody] LoginRequest request)
         {
-            var existing = _service.GetByEmail(customer.Email);
+            var existing = _service.GetByEmail(request.Email);
             if (existing == null)
                 return Unauthorized("Invalid credentials.");
 
-            bool isValid = BCrypt.Net.BCrypt.Verify(customer.Password, existing.Password);
+            bool isValid = BCrypt.Net.BCrypt.Verify(request.Password, existing.Password);
             if (!isValid)
                 return Unauthorized("Invalid credentials.");
 
-            return Ok("Login successful.");
+            return Ok(new
+            {
+                id = existing.Id,
+                firstName = existing.FirstName,
+                lastName = existing.LastName,
+                email = existing.Email
+            });
         }
 
         [HttpGet("profile/{email}")]
@@ -53,7 +59,9 @@ namespace CustomerService.Controllers
         [HttpGet("notifications/{email}")]
         public IActionResult GetNotifications(string email)
         {
+            Console.WriteLine("Controller received email: " + email);
             var notes = _service.GetNotifications(email);
+            Console.WriteLine("Found: " + notes.Count + " notifications");
             return Ok(notes);
         }
     }

@@ -22,6 +22,10 @@ namespace PaymentService.Controllers
                                              [FromQuery] string bookingTime, [FromQuery] int passengers,
                                              [FromQuery] bool hasDiscount = false)
         {
+
+            if (_service.PaymentExists(bookingId))
+                return BadRequest("Payment already processed for this booking.");
+
             try
             {
                 var bookingDate = DateTime.Parse(bookingTime);
