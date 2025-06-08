@@ -23,6 +23,7 @@ namespace BookingService.Controllers
         {
             Console.WriteLine($"API HIT: {booking.UserId}, {booking.StartLocation}, {booking.BookingTime}");
 
+            booking.BookingTime = booking.BookingTime.ToUniversalTime();
             _service.Create(booking);
 
             await PublishBookingEventAsync(booking.UserId);

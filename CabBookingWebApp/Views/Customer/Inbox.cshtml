@@ -11,7 +11,32 @@ else
     <ul>
         @foreach (var msg in Model)
         {
-            <li><strong>@msg.Type:</strong> @msg.Message (@msg.SentAt.ToShortTimeString())</li>
+            <li>
+                @{
+                    string cleanMessage = msg.Message;
+                    string formattedTime = "";
+
+                    if (!string.IsNullOrEmpty(msg.Message))
+                    {
+                        var timeStart = msg.Message.IndexOf("Time:");
+                        if (timeStart != -1)
+                        {
+                            var timeStr = msg.Message.Substring(timeStart + 5).Trim();
+                            cleanMessage = msg.Message.Substring(0, timeStart).Trim();
+                            if (DateTime.TryParse(timeStr, out var parsedTime))
+                            {
+                                formattedTime = parsedTime.ToLocalTime().ToString("yyyy-MM-dd hh:mm tt");
+                            }
+                        }
+                    }
+                }
+
+                <strong>@msg.Type:</strong> @cleanMessage
+                @if (!string.IsNullOrEmpty(formattedTime))
+                {
+                    <text> @formattedTime</text>
+                }
+            </li>
         }
     </ul>
 }

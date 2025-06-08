@@ -24,7 +24,7 @@ else
                 <tr>
                     <td>@booking.StartLocation</td>
                     <td>@booking.EndLocation</td>
-                    <td>@booking.BookingTime.ToString("g")</td>
+                    <td>@booking.BookingTime.ToLocalTime().ToString("yyyy-MM-dd hh:mm tt")</td>
                     <td>@booking.CabType</td>
                     <td>@booking.PassengerCount</td>
                 </tr>
